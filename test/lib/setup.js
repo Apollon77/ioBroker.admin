@@ -74,6 +74,7 @@ function copyFolderRecursiveSync(source, target, ignore) {
                 copyFolderRecursiveSync(curSource, targetFolder, ignore);
             } else {
                 copyFileSync(curSource, targetFolder);
+                console.log('copy ' + curSource + ' --> ' + targetFolder)
             }
         });
     }
