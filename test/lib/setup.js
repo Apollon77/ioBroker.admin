@@ -51,6 +51,7 @@ function copyFolderRecursiveSync(source, target, ignore) {
     if (base === adapterName) {
         base = pkg.name;
     }
+    console.log(source + ' --> ' + target);
     //check if folder needs to be created or integrated
     var targetFolder = path.join(target, base);
     if (!fs.existsSync(targetFolder)) {
@@ -66,6 +67,7 @@ function copyFolderRecursiveSync(source, target, ignore) {
             }
 
             var curSource = path.join(source, file);
+            var curTarget = path.join(targetFolder, file);
             if (fs.lstatSync(curSource).isDirectory()) {
                 // ignore grunt files
                 if (file.indexOf('grunt') !== -1) return;
@@ -73,8 +75,7 @@ function copyFolderRecursiveSync(source, target, ignore) {
                 if (file === 'mocha') return;
                 copyFolderRecursiveSync(curSource, targetFolder, ignore);
             } else {
-                copyFileSync(curSource, targetFolder);
-                console.log('copy ' + curSource + ' --> ' + targetFolder)
+                copyFileSync(curSource, curTarget);
             }
         });
     }
