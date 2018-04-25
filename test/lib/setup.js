@@ -452,7 +452,23 @@ function setupController(cb) {
             restoreOriginalFiles();
             copyAdapterToController();
         }
-        if (cb) cb();
+        // read system.config object
+        var dataDir = rootDir + 'tmp/' + appName + '-data/';
+
+        var objs;
+        try {
+            objs = fs.readFileSync(dataDir + 'objects.json');
+            objs = JSON.parse(objs);
+        }
+        catch (e) {
+            console.log('ERROR reading/parsing system configuration. Ignore');
+            objs = {'system.config': {}};
+        }
+        if (!objs || !objs.system || !objs.system.config) {
+            objs = {'system.config': {}};
+        }
+
+        if (cb) cb(objs['system.config']);
     });
 }
 
